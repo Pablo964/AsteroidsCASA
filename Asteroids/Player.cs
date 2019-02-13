@@ -2,7 +2,7 @@
 {
     public Player()
     {
-        LoadImage("data/player.png");
+        LoadImage("data/nave_up.png");
         x = 50;
         y = 120;
         xSpeed = ySpeed = 8;

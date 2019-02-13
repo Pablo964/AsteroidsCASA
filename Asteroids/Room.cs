@@ -9,7 +9,7 @@
     //aumentar array
     protected string[] levelData =
     {
-        "                                       ",
+        "      1                                ",
         "                                       ",
         "         1                             ",
         "                                       ",
@@ -17,7 +17,7 @@
         "           2                           ",
         "                                       ",
         "                                       ",
-        "               2                       ",
+        "                                       ",
         "                                       ",
         "        2                              ",
         "                                       ",

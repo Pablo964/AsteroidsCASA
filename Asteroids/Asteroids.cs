@@ -6,7 +6,7 @@
         SdlHardware.Init(1024, 768, 24, fullScreen);
 
         WelcomeScreen w = new WelcomeScreen();
-        
+
         do
         {
             w.Run();

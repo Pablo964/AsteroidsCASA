@@ -7,18 +7,17 @@
  * 0.01, 01-nov-2014: Initial version, drawing player 2, enemies, 
  *   allowing the user to move to the right
  */
-
 using System;
 
 class Game
 {
 
     static Player player;
-
     static int numEnemies;
 
 
     static Enemy[] enemies;
+    protected string lastPressed;
 
     protected Room room;
 
@@ -81,37 +80,84 @@ class Game
     {
         if (SdlHardware.KeyPressed(SdlHardware.KEY_RIGHT))
         {
-            player.MoveRight();
+           
+            player.LoadImage("data/nave_der.png");
+            lastPressed = "right";
+
             /*if (room.CanMoveTo(player.GetX() + player.GetSpeedX(),
                     player.GetY(),
                     player.GetX() + player.GetWidth() + player.GetSpeedX(),
                     player.GetY() + player.GetHeight()))
                 player.MoveRight();*/
-        }    
+        }
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_LEFT))
-            player.MoveLeft();
-        /*if (room.CanMoveTo(player.GetX() - player.GetSpeedX(),
-                player.GetY(),
-                player.GetX() + player.GetWidth() - player.GetSpeedX(),
-                player.GetY() + player.GetHeight()))
-            player.MoveLeft();*/
+        {
+            
+            player.LoadImage("data/nave_izq.png");
+            lastPressed = "left";
+
+            /*if (room.CanMoveTo(player.GetX() - player.GetSpeedX(),
+                    player.GetY(),
+                    player.GetX() + player.GetWidth() - player.GetSpeedX(),
+                    player.GetY() + player.GetHeight()))
+                player.MoveLeft();*/
+        }
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_UP))
-            player.MoveUp();
-        /*if (room.CanMoveTo(player.GetX(),
-                player.GetY() - player.GetSpeedY(),
-                player.GetX() + player.GetWidth(),
-                player.GetY() + player.GetHeight() - player.GetSpeedY()))
-            player.MoveUp();*/
+        {
+            player.LoadImage("data/nave_up.png");
+            lastPressed = "up";
+
+            /*if (room.CanMoveTo(player.GetX(),
+                    player.GetY() - player.GetSpeedY(),
+                    player.GetX() + player.GetWidth(),
+                    player.GetY() + player.GetHeight() - player.GetSpeedY()))
+                player.MoveUp();*/
+        }
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_DOWN))
-            player.MoveDown();
-        /*if (room.CanMoveTo(player.GetX(),
-                player.GetY() + player.GetSpeedY(),
-                player.GetX() + player.GetWidth(),
-                player.GetY() + player.GetHeight() + player.GetSpeedY()))
-            player.MoveDown();*/
+        {
+            player.LoadImage("data/nave_down.png");
+            lastPressed = "down";
+
+            /*
+            if (SdlHardware.KeyPressed(SdlHardware.KEY_SPC))
+            {
+                player.MoveDown();
+            }
+            */
+
+            /*if (room.CanMoveTo(player.GetX(),
+                    player.GetY() + player.GetSpeedY(),
+                    player.GetX() + player.GetWidth(),
+                    player.GetY() + player.GetHeight() + player.GetSpeedY()))
+                player.MoveDown();*/
+        }
+        if (SdlHardware.KeyPressed(SdlHardware.KEY_SPC))
+        {
+            if (lastPressed == "down")
+            {
+                player.MoveDown();
+            }
+            else if (lastPressed == "up")
+            {
+                player.MoveUp();
+            }
+            else if (lastPressed == "left")
+            {
+                player.MoveLeft();
+            }
+            else if (lastPressed == "right")
+            {
+               // while (lastPressed =="right")
+                //{
+                    player.MoveRight();
+                //}
+                
+            }
+
+        }
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_ESC))
             finished = true;
