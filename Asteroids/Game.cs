@@ -15,10 +15,14 @@ class Game
     static Player player;
     static int numEnemies;
 
-
     static Enemy[] enemies;
-    protected string lastPressed;
-
+    protected string lastPressed;  
+    //NEW
+    const int SIZE = 4;
+    protected string[] imagesPlayer;
+    public static int position = 0;
+    protected int acceleration;
+    //-----
     protected Room room;
 
     static bool finished;
@@ -59,9 +63,16 @@ class Game
             font18);
 
         room = new Room();
+        //NEW
+        imagesPlayer = new string[SIZE];
+        imagesPlayer[0] = "data/nave_up.png";
+        imagesPlayer[1] = "data/nave_der.png";
+        imagesPlayer[2] = "data/nave_down.png";
+        imagesPlayer[3] = "data/nave_izq.png";
+        //-----
     }
 
-    
+
 
     void UpdateScreen()
     {
@@ -78,82 +89,60 @@ class Game
 
     void CheckUserInput()
     {
+        //NEW
         if (SdlHardware.KeyPressed(SdlHardware.KEY_RIGHT))
         {
-           
-            player.LoadImage("data/nave_der.png");
-            lastPressed = "right";
+            position++;
+            if (position < 0)
+            {
+                position = SIZE - 1;
+            }
+            else if (position > (SIZE - 1))
+            {
+                position = 0;
+            }
+            player.LoadImage(imagesPlayer[position]);
 
-            /*if (room.CanMoveTo(player.GetX() + player.GetSpeedX(),
-                    player.GetY(),
-                    player.GetX() + player.GetWidth() + player.GetSpeedX(),
-                    player.GetY() + player.GetHeight()))
-                player.MoveRight();*/
+            SdlHardware.Pause(55);
         }
-
+        //NEW
         if (SdlHardware.KeyPressed(SdlHardware.KEY_LEFT))
         {
-            
-            player.LoadImage("data/nave_izq.png");
-            lastPressed = "left";
 
-            /*if (room.CanMoveTo(player.GetX() - player.GetSpeedX(),
-                    player.GetY(),
-                    player.GetX() + player.GetWidth() - player.GetSpeedX(),
-                    player.GetY() + player.GetHeight()))
-                player.MoveLeft();*/
-        }
-
-        if (SdlHardware.KeyPressed(SdlHardware.KEY_UP))
-        {
-            player.LoadImage("data/nave_up.png");
-            lastPressed = "up";
-
-            /*if (room.CanMoveTo(player.GetX(),
-                    player.GetY() - player.GetSpeedY(),
-                    player.GetX() + player.GetWidth(),
-                    player.GetY() + player.GetHeight() - player.GetSpeedY()))
-                player.MoveUp();*/
-        }
-
-        if (SdlHardware.KeyPressed(SdlHardware.KEY_DOWN))
-        {
-            player.LoadImage("data/nave_down.png");
-            lastPressed = "down";
-
-            /*
-            if (SdlHardware.KeyPressed(SdlHardware.KEY_SPC))
+            position--;
+            if (position < 0)
             {
-                player.MoveDown();
+                position = SIZE - 1;
             }
-            */
+            else if (position > (SIZE - 1))
+            {
+                position--;
+            }
+            player.LoadImage(imagesPlayer[position]);
 
-            /*if (room.CanMoveTo(player.GetX(),
-                    player.GetY() + player.GetSpeedY(),
-                    player.GetX() + player.GetWidth(),
-                    player.GetY() + player.GetHeight() + player.GetSpeedY()))
-                player.MoveDown();*/
+            SdlHardware.Pause(55);
         }
+        //NEW
         if (SdlHardware.KeyPressed(SdlHardware.KEY_SPC))
         {
-            if (lastPressed == "down")
+            if (position == 2)
             {
                 player.MoveDown();
             }
-            else if (lastPressed == "up")
+            else if (position == 0)
             {
                 player.MoveUp();
             }
-            else if (lastPressed == "left")
+            else if (position == 3)
             {
                 player.MoveLeft();
             }
-            else if (lastPressed == "right")
+            else if (position == 1)
             {
-               // while (lastPressed =="right")
-                //{
+               //while (position == 1)
+               //{
                     player.MoveRight();
-                //}
+               //}
                 
             }
 

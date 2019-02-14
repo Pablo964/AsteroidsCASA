@@ -22,12 +22,13 @@
 
     public void MoveUp()
     {
-        y -= ySpeed;
+         y -= ySpeed;
     }
 
     public void MoveDown()
     {
         y += ySpeed;
     }
+
 }
 
