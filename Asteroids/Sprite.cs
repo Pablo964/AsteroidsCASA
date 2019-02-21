@@ -70,7 +70,27 @@ class Sprite
         containsSequence = true;
         currentFrame = 0;
     }
-
+    //NEW
+    public void InfiniteScreen()
+    {
+        if ( x < -70) 
+        {
+            x = 1000;
+        }
+        else if (x > 1000)
+        {
+            x = -70;
+        }
+        if (y < -20)
+        {
+            y = 750;
+        }
+        else if (y > 770)
+        {
+            y = -20;
+        }
+    }
+    //-----
     public void LoadSequence(string[] names)
     {
         LoadSequence(RIGHT, names);

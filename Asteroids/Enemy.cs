@@ -7,14 +7,13 @@ class Enemy : Sprite
         width = 32;
         height = 64;
         xSpeed = 8;
-
     }
 
     public override void Move()
     {
         x += xSpeed;
 
-        if ((x < 50) || (x > 970))
+        if (currentDirection == 1 && ((x < -70) || (x > 1000)))
             xSpeed = -xSpeed;
     }
 }

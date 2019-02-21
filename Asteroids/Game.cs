@@ -14,11 +14,11 @@ class Game
 
     static Player player;
     static int numEnemies;
+    protected int coolDown;
 
     static Enemy[] enemies;
-    protected string lastPressed;  
     //NEW
-    const int SIZE = 4;
+    const int SIZE = 16;
     protected string[] imagesPlayer;
     public static int position = 0;
     protected int acceleration;
@@ -66,9 +66,31 @@ class Game
         //NEW
         imagesPlayer = new string[SIZE];
         imagesPlayer[0] = "data/nave_up.png";
-        imagesPlayer[1] = "data/nave_der.png";
-        imagesPlayer[2] = "data/nave_down.png";
-        imagesPlayer[3] = "data/nave_izq.png";
+
+        imagesPlayer[1] = "data/nave_up4.png";
+        imagesPlayer[2] = "data/nave_up5.png";
+        imagesPlayer[3] = "data/nave_up6.png";
+
+        imagesPlayer[4] = "data/nave_der.png";
+
+        imagesPlayer[5] = "data/nave_down1.png";
+        imagesPlayer[6] = "data/nave_down2.png";
+        imagesPlayer[7] = "data/nave_down3.png";
+
+        imagesPlayer[8] = "data/nave_down.png";
+
+        imagesPlayer[9] = "data/nave_down4.png";
+        imagesPlayer[10] = "data/nave_down5.png";
+        imagesPlayer[11] = "data/nave_down6.png";
+
+        imagesPlayer[12] = "data/nave_izq.png";
+
+        imagesPlayer[13] = "data/nave_up1.png";
+        imagesPlayer[14] = "data/nave_up2.png";
+        imagesPlayer[15] = "data/nave_up3.png";
+
+
+        coolDown = 0;
         //-----
     }
 
@@ -89,6 +111,65 @@ class Game
 
     void CheckUserInput()
     {
+        if (coolDown > 0)
+        {
+            coolDown-= 4;
+        }
+
+        if (SdlHardware.KeyPressed(SdlHardware.KEY_ESC))
+            finished = true;
+
+
+        player.Reduce();
+        
+        if (SdlHardware.KeyPressed(SdlHardware.KEY_SPC))
+        {
+
+            if (position == 0)
+            {
+                player.IncSpeedY(-6);
+            }
+            else if (position == 2)
+            {
+                player.IncSpeedY(-6);
+                player.IncSpeedX(6);
+            }
+            else if (position == 4)
+            {
+                player.IncSpeedX(6);
+            }
+            else if (position == 6)
+            {
+                player.IncSpeedY(6);
+                player.IncSpeedX(6);
+            }
+            else if (position == 8)
+            {
+                player.IncSpeedY(6);
+            }
+            else if (position == 10)
+            {
+                player.IncSpeedY(6);
+                player.IncSpeedX(-6);
+            }
+            else if (position == 12)
+            {
+                player.IncSpeedX(-6);
+            }
+            else if (position == 14)
+            {
+                player.IncSpeedY(-3);
+                player.IncSpeedX(-3);
+            }
+        }
+
+        player.Move();
+
+        if (coolDown > 0)
+        {
+            return;
+        }
+
         //NEW
         if (SdlHardware.KeyPressed(SdlHardware.KEY_RIGHT))
         {
@@ -103,7 +184,8 @@ class Game
             }
             player.LoadImage(imagesPlayer[position]);
 
-            SdlHardware.Pause(55);
+            coolDown = 10;
+
         }
         //NEW
         if (SdlHardware.KeyPressed(SdlHardware.KEY_LEFT))
@@ -120,43 +202,22 @@ class Game
             }
             player.LoadImage(imagesPlayer[position]);
 
-            SdlHardware.Pause(55);
+            coolDown = 10;
         }
         //NEW
-        if (SdlHardware.KeyPressed(SdlHardware.KEY_SPC))
-        {
-            if (position == 2)
-            {
-                player.MoveDown();
-            }
-            else if (position == 0)
-            {
-                player.MoveUp();
-            }
-            else if (position == 3)
-            {
-                player.MoveLeft();
-            }
-            else if (position == 1)
-            {
-               //while (position == 1)
-               //{
-                    player.MoveRight();
-               //}
-                
-            }
+  
 
-        }
-
-        if (SdlHardware.KeyPressed(SdlHardware.KEY_ESC))
-            finished = true;
     }
 
     static void UpdateWorld()
     {
         // Move enemies, background, etc 
         for (int i = 0; i < numEnemies; i++)
+        {
             enemies[i].Move();
+            enemies[i].InfiniteScreen();
+        }
+        player.InfiniteScreen();
     }
 
     static void CheckGameStatus()
