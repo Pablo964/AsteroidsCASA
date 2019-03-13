@@ -122,7 +122,7 @@ class Game
 
         player.Reduce();
         
-        if (SdlHardware.KeyPressed(SdlHardware.KEY_SPC))
+        if (SdlHardware.KeyPressed(SdlHardware.KEY_Z))
         {
 
             if (position == 0)
@@ -131,8 +131,8 @@ class Game
             }
             else if (position == 2)
             {
-                player.IncSpeedY(-6);
-                player.IncSpeedX(6);
+                player.IncSpeedY(-6/2);
+                player.IncSpeedX(6/2);
             }
             else if (position == 4)
             {
@@ -140,8 +140,8 @@ class Game
             }
             else if (position == 6)
             {
-                player.IncSpeedY(6);
-                player.IncSpeedX(6);
+                player.IncSpeedY(6/2);
+                player.IncSpeedX(6/2);
             }
             else if (position == 8)
             {
@@ -149,8 +149,8 @@ class Game
             }
             else if (position == 10)
             {
-                player.IncSpeedY(6);
-                player.IncSpeedX(-6);
+                player.IncSpeedY(6/2);
+                player.IncSpeedX(-6/2);
             }
             else if (position == 12)
             {
@@ -158,8 +158,8 @@ class Game
             }
             else if (position == 14)
             {
-                player.IncSpeedY(-3);
-                player.IncSpeedX(-3);
+                player.IncSpeedY(-3/2);
+                player.IncSpeedX(-3/2);
             }
         }
 
