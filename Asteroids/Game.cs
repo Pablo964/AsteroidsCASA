@@ -13,6 +13,7 @@ class Game
 {
 
     static Player player;
+    static Shot shot;
     static int numEnemies;
     protected int coolDown;
 
@@ -21,18 +22,20 @@ class Game
     const int SIZE = 16;
     protected string[] imagesPlayer;
     public static int position = 0;
-    protected int acceleration;
+    protected string imageShot;
+
+    protected int shotSpeed;
+
     //-----
     protected Room room;
 
     static bool finished;
 
-    protected Font font18;
-
     public Game()
     {
         player = new Player();
         player.MoveTo(200, 100);
+        shot = new Shot();
 
         numEnemies = 2;
         enemies = new Enemy[numEnemies];
@@ -66,29 +69,25 @@ class Game
         //NEW
         imagesPlayer = new string[SIZE];
         imagesPlayer[0] = "data/nave_up.png";
-
         imagesPlayer[1] = "data/nave_up4.png";
         imagesPlayer[2] = "data/nave_up5.png";
         imagesPlayer[3] = "data/nave_up6.png";
-
         imagesPlayer[4] = "data/nave_der.png";
-
         imagesPlayer[5] = "data/nave_down1.png";
         imagesPlayer[6] = "data/nave_down2.png";
         imagesPlayer[7] = "data/nave_down3.png";
-
         imagesPlayer[8] = "data/nave_down.png";
-
         imagesPlayer[9] = "data/nave_down4.png";
         imagesPlayer[10] = "data/nave_down5.png";
         imagesPlayer[11] = "data/nave_down6.png";
-
         imagesPlayer[12] = "data/nave_izq.png";
-
         imagesPlayer[13] = "data/nave_up1.png";
         imagesPlayer[14] = "data/nave_up2.png";
         imagesPlayer[15] = "data/nave_up3.png";
 
+        imageShot = "data/estrellas3.png";
+
+        shotSpeed = 22;
 
         coolDown = 0;
         //-----
@@ -103,6 +102,8 @@ class Game
         room.DrawOnHiddenScreen();
 
         player.DrawOnHiddenScreen();
+        shot.DrawOnHiddenScreen();
+        
         for (int i = 0; i < numEnemies; i++)
             enemies[i].DrawOnHiddenScreen();
         SdlHardware.ShowHiddenScreen();
@@ -113,57 +114,195 @@ class Game
     {
         if (coolDown > 0)
         {
-            coolDown-= 4;
+            coolDown-= 9;
         }
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_ESC))
             finished = true;
 
+        if (SdlHardware.KeyPressed(SdlHardware.KEY_X))
+        {
+            
+            shot.MoveTo(player.GetX() + 6, player.GetY() + 2);
+            shot.LoadImage(imageShot);
+
+            switch (position)
+            {
+                case 0:
+                    shot.speedY(-shotSpeed);
+                    shot.speedX(0);
+                    break;
+
+                case 1:
+                    shot.speedY(-shotSpeed / 2);
+                    shot.speedX(shotSpeed / 2);
+                    break;
+
+                case 2:
+                    shot.speedY(-shotSpeed / 2);
+                    shot.speedX(shotSpeed / 2);
+                    break;
+
+                case 3:
+                    shot.speedY(-shotSpeed / 2);
+                    shot.speedX(shotSpeed / 2);
+                    break;
+
+                case 4:
+                    shot.speedX(shotSpeed);
+                    shot.speedY(0);
+                    break;
+
+                case 5:
+                    shot.speedY(shotSpeed / 2);
+                    shot.speedX(shotSpeed / 2);
+                    break;
+
+                case 6:
+                    shot.speedY(shotSpeed / 2);
+                    shot.speedX(shotSpeed / 2);
+                    break;
+
+                case 7:
+                    shot.speedY(shotSpeed / 2);
+                    shot.speedX(shotSpeed / 2);
+                    break;
+
+                case 8:
+                    shot.speedY(shotSpeed);
+                    shot.speedX(0);
+                    break;
+
+                case 9:
+                    shot.speedY(shotSpeed / 2);
+                    shot.speedX(-shotSpeed / 2);
+                    break;
+
+                case 10:
+                    shot.speedY(shotSpeed / 2);
+                    shot.speedX(-shotSpeed / 2);
+                    break;
+
+                case 11:
+                    shot.speedY(shotSpeed / 2);
+                    shot.speedX(-shotSpeed / 2);
+                    break;
+
+                case 12:
+                    shot.speedX(-shotSpeed);
+                    shot.speedY(0);
+                    break;
+
+                case 13:
+                    shot.speedY(-shotSpeed / 2);
+                    shot.speedX(-shotSpeed / 2);
+                    break;
+
+                case 14:
+                    shot.speedY(-shotSpeed / 2);
+                    shot.speedX(-shotSpeed / 2);
+                    break;
+
+                case 15:
+                    shot.speedY(-shotSpeed / 2);
+                    shot.speedX(-shotSpeed / 2);
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         player.Reduce();
         
         if (SdlHardware.KeyPressed(SdlHardware.KEY_Z))
         {
+            switch (position)
+            {
+                case 0:
+                    player.IncSpeedY(-2);
+                    break;
 
-            if (position == 0)
-            {
-                player.IncSpeedY(-6);
-            }
-            else if (position == 2)
-            {
-                player.IncSpeedY(-6/2);
-                player.IncSpeedX(6/2);
-            }
-            else if (position == 4)
-            {
-                player.IncSpeedX(6);
-            }
-            else if (position == 6)
-            {
-                player.IncSpeedY(6/2);
-                player.IncSpeedX(6/2);
-            }
-            else if (position == 8)
-            {
-                player.IncSpeedY(6);
-            }
-            else if (position == 10)
-            {
-                player.IncSpeedY(6/2);
-                player.IncSpeedX(-6/2);
-            }
-            else if (position == 12)
-            {
-                player.IncSpeedX(-6);
-            }
-            else if (position == 14)
-            {
-                player.IncSpeedY(-3/2);
-                player.IncSpeedX(-3/2);
+                case 1:
+                    player.IncSpeedY(-6 / 2);
+                    player.IncSpeedX(6 / 2);
+                    break;
+                    
+                case 2:
+                    player.IncSpeedY(-6 / 2);
+                    player.IncSpeedX(6 / 2);
+                    break;
+
+                case 3:
+                    player.IncSpeedY(-6 / 2);
+                    player.IncSpeedX(6 / 2);
+                    break;
+
+                case 4:
+                    player.IncSpeedX(6);
+                    break;
+
+                case 5:
+                    player.IncSpeedY(6 / 2);
+                    player.IncSpeedX(6 / 2);
+                    break;
+
+                case 6:
+                    player.IncSpeedY(6 / 2);
+                    player.IncSpeedX(6 / 2);
+                    break;
+
+                case 7:
+                    player.IncSpeedY(6 / 2);
+                    player.IncSpeedX(6 / 2);
+                    break;
+
+                case 8:
+                    player.IncSpeedY(6);
+                    break;
+
+                case 9:
+                    player.IncSpeedY(6 / 2);
+                    player.IncSpeedX(-6 / 2);
+                    break;
+
+                case 10:
+                    player.IncSpeedY(6 / 2);
+                    player.IncSpeedX(-6 / 2);
+                    break;
+
+                case 11:
+                    player.IncSpeedY(6 / 2);
+                    player.IncSpeedX(-6 / 2);
+                    break;
+
+                case 12:
+                    player.IncSpeedX(-6);
+                    break;
+
+                case 13:
+                    player.IncSpeedY(-6 / 2);
+                    player.IncSpeedX(-6 / 2);
+                    break;
+
+                case 14:
+                    player.IncSpeedY(-6 / 2);
+                    player.IncSpeedX(-6 / 2);
+                    break;
+
+                case 15:
+                    player.IncSpeedY(-6 / 2);
+                    player.IncSpeedX(-6 / 2);
+                    break;
+
+                default:
+                    break;
             }
         }
 
+        
         player.Move();
+        shot.Move();
 
         if (coolDown > 0)
         {
@@ -218,6 +357,7 @@ class Game
             enemies[i].InfiniteScreen();
         }
         player.InfiniteScreen();
+        shot.InfiniteScreen();
     }
 
     static void CheckGameStatus()

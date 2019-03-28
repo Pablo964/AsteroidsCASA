@@ -1,4 +1,6 @@
-﻿class Player : Sprite
+﻿using System;
+
+class Player : Sprite
 {
     protected int coolDown;
 
@@ -53,13 +55,13 @@
     {
         this.ySpeed += +speed;
 
-        if (ySpeed > 20)
+        if (ySpeed > 14)
         {
-            ySpeed = 20;
+            ySpeed = 14;
         }
-        if (ySpeed < -20)
+        if (ySpeed < -14)
         {
-            ySpeed = -20;
+            ySpeed = -14;
         }
     }
 
@@ -67,16 +69,16 @@
     {
         this.xSpeed += speed;
 
-        if (xSpeed > 20)
+        if (xSpeed > 14)
         {
-            xSpeed = 20;
+            xSpeed = 14;
         }
-        if (xSpeed < -20)
+        if (xSpeed < -14)
         {
-            xSpeed = -20;
+            xSpeed = -14;
         }
     }
-    public void Move()
+    public override void Move()
     {
         MoveRight();
         MoveDown();
@@ -85,16 +87,6 @@
     public void MoveRight()
     {
         x += xSpeed;
-    }
-
-    public void MoveLeft()
-    {
-        x -= xSpeed;
-    }
-
-    public void MoveUp()
-    {
-         y -= ySpeed;
     }
 
     public void MoveDown()
