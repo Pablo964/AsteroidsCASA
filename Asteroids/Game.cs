@@ -8,14 +8,15 @@
  *   allowing the user to move to the right
  */
 using System;
-
+using System.Collections.Generic;
 class Game
 {
 
     static Player player;
-    static Shot shot;
+    static List<Shot> shot;
     static int numEnemies;
     protected int coolDown;
+    protected int coolDownShot;
 
     static Enemy[] enemies;
     //NEW
@@ -25,7 +26,8 @@ class Game
     protected string imageShot;
 
     protected int shotSpeed;
-
+    protected static bool activeShot;
+    static bool[] enemyAlive;
     //-----
     protected Room room;
 
@@ -35,10 +37,12 @@ class Game
     {
         player = new Player();
         player.MoveTo(200, 100);
-        shot = new Shot();
-
+        shot = new List<Shot>();
+        shot.Add(new Shot());
         numEnemies = 2;
         enemies = new Enemy[numEnemies];
+        //---
+        enemyAlive = new bool[numEnemies];
 
 
         for (int i = 0; i < numEnemies; i++)
@@ -55,6 +59,11 @@ class Game
                 rnd.Next(50, 600));
             enemies[i].SetSpeed(rnd.Next(1, 5),
                 rnd.Next(1, 5));
+        }
+
+        for (int i = 0; i < numEnemies; i++)
+        {
+            enemyAlive[i] = true;
         }
 
         Font font18 = new Font("data/Joystix.ttf", 18);
@@ -89,7 +98,10 @@ class Game
 
         shotSpeed = 22;
 
+        activeShot = false;
+
         coolDown = 0;
+        coolDownShot = 0;
         //-----
     }
 
@@ -102,10 +114,19 @@ class Game
         room.DrawOnHiddenScreen();
 
         player.DrawOnHiddenScreen();
-        shot.DrawOnHiddenScreen();
-        
+
+        if (shot.Count > 0 && activeShot == true)
+        {
+            shot[0].DrawOnHiddenScreen();
+        }
+
         for (int i = 0; i < numEnemies; i++)
-            enemies[i].DrawOnHiddenScreen();
+        {
+            if (enemyAlive[i] != false)
+            {
+                enemies[i].DrawOnHiddenScreen();
+            }
+        }
         SdlHardware.ShowHiddenScreen();
     }
 
@@ -115,101 +136,121 @@ class Game
         if (coolDown > 0)
         {
             coolDown-= 9;
+            
+        }
+        if (coolDownShot > 0)
+        {
+            coolDownShot -= 2;
+        }
+        if (coolDownShot == 0)
+        {
+            activeShot = false;
         }
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_ESC))
             finished = true;
 
-        if (SdlHardware.KeyPressed(SdlHardware.KEY_X))
+
+        if (!(coolDownShot > 0))
         {
-            
-            shot.MoveTo(player.GetX() + 6, player.GetY() + 2);
-            shot.LoadImage(imageShot);
 
-            switch (position)
+            if (SdlHardware.KeyPressed(SdlHardware.KEY_X))
             {
-                case 0:
-                    shot.speedY(-shotSpeed);
-                    shot.speedX(0);
-                    break;
+                shot.Add(new Shot());
 
-                case 1:
-                    shot.speedY(-shotSpeed / 2);
-                    shot.speedX(shotSpeed / 2);
-                    break;
+                shot[0].MoveTo(player.GetX() + 6, player.GetY() + 2);
+                shot[0].LoadImage(imageShot);
 
-                case 2:
-                    shot.speedY(-shotSpeed / 2);
-                    shot.speedX(shotSpeed / 2);
-                    break;
+                coolDownShot = 30;
+                activeShot = true;
 
-                case 3:
-                    shot.speedY(-shotSpeed / 2);
-                    shot.speedX(shotSpeed / 2);
-                    break;
+                switch (position)
+                {
 
-                case 4:
-                    shot.speedX(shotSpeed);
-                    shot.speedY(0);
-                    break;
+                    case 0:
+                        shot[0].speedY(-shotSpeed);
+                        shot[0].speedX(0);
+                        break;
 
-                case 5:
-                    shot.speedY(shotSpeed / 2);
-                    shot.speedX(shotSpeed / 2);
-                    break;
+                    case 1:
+                        shot[0].speedY(-shotSpeed / 2);
+                        shot[0].speedX(shotSpeed / 2);
+                        break;
 
-                case 6:
-                    shot.speedY(shotSpeed / 2);
-                    shot.speedX(shotSpeed / 2);
-                    break;
+                    case 2:
+                        shot[0].speedY(-shotSpeed / 2);
+                        shot[0].speedX(shotSpeed / 2);
+                        break;
 
-                case 7:
-                    shot.speedY(shotSpeed / 2);
-                    shot.speedX(shotSpeed / 2);
-                    break;
+                    case 3:
+                        shot[0].speedY(-shotSpeed / 2);
+                        shot[0].speedX(shotSpeed / 2);
+                        break;
 
-                case 8:
-                    shot.speedY(shotSpeed);
-                    shot.speedX(0);
-                    break;
+                    case 4:
+                        shot[0].speedX(shotSpeed);
+                        shot[0].speedY(0);
+                        break;
 
-                case 9:
-                    shot.speedY(shotSpeed / 2);
-                    shot.speedX(-shotSpeed / 2);
-                    break;
+                    case 5:
+                        shot[0].speedY(shotSpeed / 2);
+                        shot[0].speedX(shotSpeed / 2);
+                        break;
 
-                case 10:
-                    shot.speedY(shotSpeed / 2);
-                    shot.speedX(-shotSpeed / 2);
-                    break;
+                    case 6:
+                        shot[0].speedY(shotSpeed / 2);
+                        shot[0].speedX(shotSpeed / 2);
+                        break;
 
-                case 11:
-                    shot.speedY(shotSpeed / 2);
-                    shot.speedX(-shotSpeed / 2);
-                    break;
+                    case 7:
+                        shot[0].speedY(shotSpeed / 2);
+                        shot[0].speedX(shotSpeed / 2);
+                        break;
 
-                case 12:
-                    shot.speedX(-shotSpeed);
-                    shot.speedY(0);
-                    break;
+                    case 8:
+                        shot[0].speedY(shotSpeed);
+                        shot[0].speedX(0);
+                        break;
 
-                case 13:
-                    shot.speedY(-shotSpeed / 2);
-                    shot.speedX(-shotSpeed / 2);
-                    break;
+                    case 9:
+                        shot[0].speedY(shotSpeed / 2);
+                        shot[0].speedX(-shotSpeed / 2);
+                        break;
 
-                case 14:
-                    shot.speedY(-shotSpeed / 2);
-                    shot.speedX(-shotSpeed / 2);
-                    break;
+                    case 10:
+                        shot[0].speedY(shotSpeed / 2);
+                        shot[0].speedX(-shotSpeed / 2);
+                        break;
 
-                case 15:
-                    shot.speedY(-shotSpeed / 2);
-                    shot.speedX(-shotSpeed / 2);
-                    break;
+                    case 11:
+                        shot[0].speedY(shotSpeed / 2);
+                        shot[0].speedX(-shotSpeed / 2);
+                        break;
 
-                default:
-                    break;
+                    case 12:
+                        shot[0].speedX(-shotSpeed);
+                        shot[0].speedY(0);
+                        break;
+
+                    //probar con Yspeed en -4
+                    case 13:
+                        shot[0].speedY(-shotSpeed / 2);
+                        shot[0].speedX(-shotSpeed / 2);
+                        break;
+
+                    case 14:
+                        shot[0].speedY(-shotSpeed / 2);
+                        shot[0].speedX(-shotSpeed / 2);
+                        break;
+
+                    case 15:
+                        shot[0].speedY(-shotSpeed / 2);
+                        shot[0].speedX(-shotSpeed / 2);
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
 
@@ -217,6 +258,7 @@ class Game
         
         if (SdlHardware.KeyPressed(SdlHardware.KEY_Z))
         {
+            
             switch (position)
             {
                 case 0:
@@ -302,12 +344,13 @@ class Game
 
         
         player.Move();
-        shot.Move();
+        shot[0].Move();
 
         if (coolDown > 0)
         {
             return;
         }
+        
 
         //NEW
         if (SdlHardware.KeyPressed(SdlHardware.KEY_RIGHT))
@@ -356,16 +399,24 @@ class Game
             enemies[i].Move();
             enemies[i].InfiniteScreen();
         }
+
         player.InfiniteScreen();
-        shot.InfiniteScreen();
+        shot[0].InfiniteScreen();
     }
 
     static void CheckGameStatus()
     {
         // Check collisions and apply game logic
         for (int i = 0; i < numEnemies; i++)
+        {
             if (player.CollisionsWith(enemies[i]))
                 finished = true;
+
+            if (shot[0].CollisionsWith(enemies[i]))
+            {
+                enemyAlive[i] = false;
+            }
+        }
     }
 
     static void PauseUntilNextFrame()
