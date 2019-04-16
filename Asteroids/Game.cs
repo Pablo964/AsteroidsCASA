@@ -17,6 +17,8 @@ class Game
     static int numEnemies;
     protected int coolDown;
     protected int coolDownShot;
+    protected int numTeletransportes;
+    protected int enfriamientoTeletransporte;
 
     static Enemy[] enemies;
     //NEW
@@ -32,6 +34,7 @@ class Game
     protected Room room;
 
     static bool finished;
+
 
     public Game()
     {
@@ -67,7 +70,7 @@ class Game
         }
 
         Font font18 = new Font("data/Joystix.ttf", 18);
-        
+
 
         SdlHardware.WriteHiddenText("Score: ",
             40, 10,
@@ -94,7 +97,7 @@ class Game
         imagesPlayer[14] = "data/nave_up2.png";
         imagesPlayer[15] = "data/nave_up3.png";
 
-        imageShot = "data/estrellas3.png";
+        imageShot = "data/disparo.png";
 
         shotSpeed = 22;
 
@@ -102,6 +105,8 @@ class Game
 
         coolDown = 0;
         coolDownShot = 0;
+        numTeletransportes = 3;
+        enfriamientoTeletransporte = 0;
         //-----
     }
 
@@ -135,8 +140,8 @@ class Game
     {
         if (coolDown > 0)
         {
-            coolDown-= 9;
-            
+            coolDown -= 9;
+
         }
         if (coolDownShot > 0)
         {
@@ -145,6 +150,10 @@ class Game
         if (coolDownShot == 0)
         {
             activeShot = false;
+        }
+        if (enfriamientoTeletransporte > 0)
+        {
+            enfriamientoTeletransporte -= 9;
         }
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_ESC))
@@ -158,7 +167,7 @@ class Game
             {
                 shot.Add(new Shot());
 
-                shot[0].MoveTo(player.GetX() + 6, player.GetY() + 2);
+                shot[0].MoveTo(player.GetX() + 12, player.GetY() + 16);
                 shot[0].LoadImage(imageShot);
 
                 coolDownShot = 30;
@@ -173,8 +182,9 @@ class Game
                         break;
 
                     case 1:
-                        shot[0].speedY(-shotSpeed / 2);
-                        shot[0].speedX(shotSpeed / 2);
+                        //TOCADO
+                        shot[0].speedY(((-shotSpeed) ) / 2);
+                        shot[0].speedX((shotSpeed) / 2);
                         break;
 
                     case 2:
@@ -255,10 +265,10 @@ class Game
         }
 
         player.Reduce();
-        
+
         if (SdlHardware.KeyPressed(SdlHardware.KEY_Z))
         {
-            
+
             switch (position)
             {
                 case 0:
@@ -269,7 +279,7 @@ class Game
                     player.IncSpeedY(-6 / 2);
                     player.IncSpeedX(6 / 2);
                     break;
-                    
+
                 case 2:
                     player.IncSpeedY(-6 / 2);
                     player.IncSpeedX(6 / 2);
@@ -342,7 +352,7 @@ class Game
             }
         }
 
-        
+
         player.Move();
         shot[0].Move();
 
@@ -350,7 +360,7 @@ class Game
         {
             return;
         }
-        
+
 
         //NEW
         if (SdlHardware.KeyPressed(SdlHardware.KEY_RIGHT))
@@ -386,8 +396,20 @@ class Game
 
             coolDown = 10;
         }
+        if (enfriamientoTeletransporte > 0)
+        {
+            return;
+        }
         //NEW
-  
+        if (SdlHardware.KeyPressed(SdlHardware.KEY_C))
+        {
+            if (!(enfriamientoTeletransporte > 0) && numTeletransportes > 0)
+            {
+                player.Teletransporte();
+                enfriamientoTeletransporte = 70;
+                numTeletransportes--;
+            }
+        }
 
     }
 
@@ -409,7 +431,7 @@ class Game
         // Check collisions and apply game logic
         for (int i = 0; i < numEnemies; i++)
         {
-            if (player.CollisionsWith(enemies[i]))
+            if (player.CollisionsWith(enemies[i]) && enemyAlive[i] == true)
                 finished = true;
 
             if (shot[0].CollisionsWith(enemies[i]))

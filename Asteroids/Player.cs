@@ -55,13 +55,13 @@ class Player : Sprite
     {
         this.ySpeed += +speed;
 
-        if (ySpeed > 14)
+        if (ySpeed > 20)
         {
-            ySpeed = 14;
+            ySpeed = 20;
         }
-        if (ySpeed < -14)
+        if (ySpeed < -20)
         {
-            ySpeed = -14;
+            ySpeed = -20;
         }
     }
 
@@ -69,16 +69,16 @@ class Player : Sprite
     {
         this.xSpeed += speed;
 
-        if (xSpeed > 14)
+        if (xSpeed > 20)
         {
-            xSpeed = 14;
+            xSpeed = 20;
         }
-        if (xSpeed < -14)
+        if (xSpeed < -20)
         {
-            xSpeed = -14;
+            xSpeed = -20;
         }
     }
-    public override void Move()
+    public void Move()
     {
         MoveRight();
         MoveDown();
@@ -89,10 +89,31 @@ class Player : Sprite
         x += xSpeed;
     }
 
+    public void MoveLeft()
+    {
+        x -= xSpeed;
+    }
+
+    public void MoveUp()
+    {
+         y -= ySpeed;
+    }
+
     public void MoveDown()
     {
         y += ySpeed;
     }
 
+    public void Teletransporte()
+    {
+        Random aleatorio = new Random();
+        int numAleatorio = aleatorio.Next(-70, 1000);
+
+        x = numAleatorio;
+
+        numAleatorio = aleatorio.Next(-20, 750);
+
+        y = numAleatorio;
+    }
 }
 
