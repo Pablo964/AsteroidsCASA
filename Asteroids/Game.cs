@@ -44,16 +44,22 @@ class Game
     static protected string fileMaxScore = "maxScore.txt";
     static protected Font font24;
 
+    protected bool levelUp;
+    static protected int maxEnemies;
+    protected int maxVelocidad;
+    protected int level;
+
     public Game()
     {
+        maxEnemies = 20;
         player = new Player();
         player.MoveTo(200, 100);
         shot = new List<Shot>();
         shot.Add(new Shot());
         numEnemies = 2;
-        enemies = new Enemy[numEnemies];
+        enemies = new Enemy[maxEnemies];
         //---
-        enemyAlive = new bool[numEnemies];
+        enemyAlive = new bool[maxEnemies];
 
 
         for (int i = 0; i < numEnemies; i++)
@@ -78,12 +84,6 @@ class Game
         }
 
         Font font18 = new Font("data/Joystix.ttf", 18);
-
-
-        SdlHardware.WriteHiddenText("Score: ",
-            40, 10,
-            0xCC, 0xCC, 0xCC,
-            font18);
 
         room = new Room();
         //NEW
@@ -124,7 +124,10 @@ class Game
         {
             inputMaxScore = new StreamReader(fileMaxScore);
         }
-        
+
+        levelUp = true;
+        maxVelocidad = 5;
+        level = 1;
     }
 
     void UpdateScreen()
@@ -148,12 +151,60 @@ class Game
             }
         }
 
-        SdlHardware.WriteHiddenText("Score: " + score,
+        for (int i = 0; i < numEnemies; i++)
+        {
+            if (enemyAlive[i] == true)
+            {
+                levelUp = false;
+            }
+        }
+
+        if (levelUp == true)
+        {
+            level += 1;
+            if (numEnemies < 20)
+            {
+                numEnemies += 2;
+            }
+            if (maxVelocidad < 20)
+            {
+                maxVelocidad += 1;
+            }
+
+            for (int i = 0; i < numEnemies; i++)
+            {
+                enemies[i] = new Enemy();
+            }
+
+            finished = false;
+
+            Random rnd = new Random();
+            for (int i = 0; i < numEnemies; i++)
+            {
+                enemies[i].MoveTo(rnd.Next(200, 800),
+                    rnd.Next(50, 600));
+                enemies[i].SetSpeed(rnd.Next(1, maxVelocidad),
+                    rnd.Next(1, maxVelocidad));
+            }
+
+            for (int i = 0; i < numEnemies; i++)
+            {
+                enemyAlive[i] = true;
+            }
+        }
+
+        SdlHardware.WriteHiddenText("Level: " + level,
             400, 10,
+            0xC0, 0xC0, 0xC0,
+            font24);
+        SdlHardware.WriteHiddenText("Score: " + score,
+            400, 40,
             0xC0, 0xC0, 0xC0,
             font24);
 
         SdlHardware.ShowHiddenScreen();
+
+        levelUp = true;
     }
 
 
