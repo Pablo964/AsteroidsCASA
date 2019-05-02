@@ -78,7 +78,7 @@ class Player : Sprite
             xSpeed = -20;
         }
     }
-    public override void Move()
+    public void Move()
     {
         MoveRight();
         MoveDown();

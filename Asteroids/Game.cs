@@ -9,6 +9,8 @@
  */
 using System;
 using System.Collections.Generic;
+using System.IO;
+
 class Game
 {
 
@@ -19,30 +21,28 @@ class Game
     protected int coolDownShot;
     protected int numTeletransportes;
     protected int enfriamientoTeletransporte;
-
+    
     static Enemy[] enemies;
     //NEW
     const int SIZE = 16;
     protected string[] imagesPlayer;
     public static int position = 0;
-<<<<<<< Updated upstream
     protected string imageShot;
 
     protected int shotSpeed;
     protected static bool activeShot;
     static bool[] enemyAlive;
-=======
-
->>>>>>> Stashed changes
     //-----
     protected Room room;
 
     static bool finished;
-
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+    static protected int score;
+    static protected int maxScore;
+    static StreamReader inputMaxScore;
+    StreamWriter outputMaxScore;
+    Score s;
+    static protected string fileMaxScore = "maxScore.txt";
+    static protected Font font24;
 
     public Game()
     {
@@ -112,18 +112,21 @@ class Game
         activeShot = false;
 
         coolDown = 0;
-<<<<<<< Updated upstream
         coolDownShot = 0;
         numTeletransportes = 3;
         enfriamientoTeletransporte = 0;
-=======
-
->>>>>>> Stashed changes
         //-----
+        score = 0;
+        s = new Score();
+        font24 = new Font("data/Joystix.ttf", 24);
+
+        if (File.Exists(fileMaxScore))
+        {
+            inputMaxScore = new StreamReader(fileMaxScore);
+        }
+        
     }
 
-
-    
     void UpdateScreen()
     {
         SdlHardware.ClearScreen();
@@ -144,6 +147,12 @@ class Game
                 enemies[i].DrawOnHiddenScreen();
             }
         }
+
+        SdlHardware.WriteHiddenText("Score: " + score,
+            400, 10,
+            0xC0, 0xC0, 0xC0,
+            font24);
+
         SdlHardware.ShowHiddenScreen();
     }
 
@@ -362,17 +371,11 @@ class Game
                 default:
                     break;
             }
-
-            player.Move();
         }
 
-<<<<<<< Updated upstream
 
         player.Move();
-        shot[0].Move();
-=======
-       
->>>>>>> Stashed changes
+        shot[0].Move(position);
 
         if (coolDown > 0)
         {
@@ -450,11 +453,28 @@ class Game
         for (int i = 0; i < numEnemies; i++)
         {
             if (player.CollisionsWith(enemies[i]) && enemyAlive[i] == true)
-                finished = true;
+            {
+                string line = inputMaxScore.ReadLine();
+                
+                maxScore = Convert.ToInt32(line);
+                inputMaxScore.Close();
 
-            if (shot[0].CollisionsWith(enemies[i]))
+                if (score > maxScore)
+                {
+                    maxScore = score;
+                    File.WriteAllText(fileMaxScore, Convert.ToString(score));
+                    
+                }
+                Score.Run(score, maxScore);
+                score = 0;
+                finished = true;
+            }   
+
+            if (shot[0].CollisionsWith(enemies[i]) && enemyAlive[i] == true
+                && activeShot == true)
             {
                 enemyAlive[i] = false;
+                score += 20;
             }
         }
     }
@@ -464,11 +484,11 @@ class Game
         SdlHardware.Pause(40);
     }
 
-    static void UpdateHighscore()
+    /*static void UpdateHighscore()
     {
         // Save highest score
         // TO DO
-    }
+    }*/
 
     public void Run()
     {
@@ -482,6 +502,7 @@ class Game
         }
         while (!finished);
 
-        UpdateHighscore();
+
+        //UpdateHighscore();
     }
 }

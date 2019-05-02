@@ -25,20 +25,39 @@ class Shot : Sprite
     {
         this.xSpeed = speed;
     }
-    public override void Move()
+    public void Move(int position)
     {
-        MoveRight();
-        MoveDown();
+        MoveRight(position);
+        MoveDown(position);
     }
 
-    public void MoveRight()
+    public void MoveRight(int position)
     {
-        x += xSpeed;
+        switch (position)
+        {
+            case 1:
+                x += xSpeed + 1;
+                break;
+            default:
+                x += xSpeed;
+                break;
+        }
+        
     }
 
-    public void MoveDown()
+    public void MoveDown(int position)
     {
-        y += ySpeed;
+        switch (position)
+        {
+            case 1:
+                y += ySpeed + 5;
+                break;
+            default:
+                y += ySpeed;
+                break;
+        } 
     }
+
 }
+
 

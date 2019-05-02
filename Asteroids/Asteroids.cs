@@ -14,6 +14,12 @@
             {
                 Game g = new Game();
                 g.Run();
+                /*Score s = new Score();
+                do
+                {
+                    s.Run();
+                } while (s.GetExit() != 0);*/
+               
             }
             else if (w.GetChosenOption() == 2)
             {
