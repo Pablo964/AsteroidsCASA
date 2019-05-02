@@ -38,3 +38,11 @@ D:\1_DAM\programacion\proyecto\asteroidsCASA\Asteroids\obj\Debug\Asteroids.cspro
 D:\1_DAM\programacion\proyecto\asteroidsCASA\Asteroids\obj\Debug\Asteroids.csproj.CopyComplete
 D:\1_DAM\programacion\proyecto\asteroidsCASA\Asteroids\obj\Debug\Asteroids.exe
 D:\1_DAM\programacion\proyecto\asteroidsCASA\Asteroids\obj\Debug\Asteroids.pdb
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\bin\Debug\Asteroids.exe.config
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\bin\Debug\Asteroids.exe
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\bin\Debug\Asteroids.pdb
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\obj\Debug\Asteroids.csprojAssemblyReference.cache
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\obj\Debug\Asteroids.csproj.CoreCompileInputs.cache
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\obj\Debug\Asteroids.csproj.CopyComplete
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\obj\Debug\Asteroids.exe
+C:\Users\pablo\Desktop\AsteroidsCASA\AsteroidsCASA\Asteroids\obj\Debug\Asteroids.pdb

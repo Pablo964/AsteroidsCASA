@@ -3,6 +3,9 @@
 class Player : Sprite
 {
     protected int coolDown;
+    protected double angleInDegrees;
+    protected double cos;
+
 
     public Player()
     {
@@ -14,6 +17,30 @@ class Player : Sprite
         height = 15;
 
         coolDown = 0;
+
+        angleInDegrees = 0;
+        cos = System.Math.Cos(angleInDegrees * (System.Math.PI / 180.0));
+    }
+
+    public void SetAngle(double angle)
+    {
+        angleInDegrees = angle;
+    }
+
+    public double GetAngle()
+    {
+        return angleInDegrees;
+    }
+
+
+    public void SetCos(double angle)
+    {
+        System.Math.Cos(angle * (System.Math.PI / 180.0));
+    }
+
+    public double GetCos()
+    {
+        return angleInDegrees;
     }
 
     public void  Reduce()
@@ -78,30 +105,23 @@ class Player : Sprite
             xSpeed = -20;
         }
     }
-    public void Move()
+    public override void Move()
     {
-        MoveRight();
-        MoveDown();
+
+        MoveX();
+        MoveY();
     }
 
-    public void MoveRight()
+    public void MoveX()
     {
         x += xSpeed;
+        
     }
 
-    public void MoveLeft()
-    {
-        x -= xSpeed;
-    }
-
-    public void MoveUp()
-    {
-         y -= ySpeed;
-    }
-
-    public void MoveDown()
+    public void MoveY()
     {
         y += ySpeed;
+        
     }
 
     public void Teletransporte()

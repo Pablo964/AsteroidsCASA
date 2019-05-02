@@ -25,16 +25,24 @@ class Game
     const int SIZE = 16;
     protected string[] imagesPlayer;
     public static int position = 0;
+<<<<<<< Updated upstream
     protected string imageShot;
 
     protected int shotSpeed;
     protected static bool activeShot;
     static bool[] enemyAlive;
+=======
+
+>>>>>>> Stashed changes
     //-----
     protected Room room;
 
     static bool finished;
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     public Game()
     {
@@ -104,14 +112,18 @@ class Game
         activeShot = false;
 
         coolDown = 0;
+<<<<<<< Updated upstream
         coolDownShot = 0;
         numTeletransportes = 3;
         enfriamientoTeletransporte = 0;
+=======
+
+>>>>>>> Stashed changes
         //-----
     }
 
 
-
+    
     void UpdateScreen()
     {
         SdlHardware.ClearScreen();
@@ -350,11 +362,17 @@ class Game
                 default:
                     break;
             }
+
+            player.Move();
         }
 
+<<<<<<< Updated upstream
 
         player.Move();
         shot[0].Move();
+=======
+       
+>>>>>>> Stashed changes
 
         if (coolDown > 0)
         {
