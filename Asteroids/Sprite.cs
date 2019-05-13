@@ -1,12 +1,4 @@
-﻿/**
- * Sprite.cs - A basic graphic element to inherit from
- * 
- * Changes:
- * 0.01, 24-jul-2013: Initial version, based on SdlMuncher 0.12
- */
-
-
-class Sprite
+﻿class Sprite
 {
     protected int x, y;
     protected int startX, startY;

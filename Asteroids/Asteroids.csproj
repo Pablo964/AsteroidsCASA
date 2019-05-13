@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Asteroids.cs" />
+    <Compile Include="ChooseLanguage.cs" />
     <Compile Include="CreditsScreen.cs" />
     <Compile Include="EndEscene.cs" />
     <Compile Include="Enemy.cs" />

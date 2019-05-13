@@ -21,7 +21,7 @@ class Game
     protected int coolDownShot;
     protected int numTeletransportes;
     protected int enfriamientoTeletransporte;
-    
+
     static Enemy[] enemies;
     //NEW
     const int SIZE = 16;
@@ -166,9 +166,9 @@ class Game
             {
                 numEnemies += 2;
             }
-            if (maxVelocidad < 20)
+            if (maxVelocidad < 35)
             {
-                maxVelocidad += 1;
+                maxVelocidad += 2;
             }
 
             for (int i = 0; i < numEnemies; i++)
@@ -179,10 +179,17 @@ class Game
             finished = false;
 
             Random rnd = new Random();
+
             for (int i = 0; i < numEnemies; i++)
             {
-                enemies[i].MoveTo(rnd.Next(200, 800),
-                    rnd.Next(50, 600));
+                int randomX = rnd.Next(200, 800);
+                int randomY = rnd.Next(50, 600);
+
+                if (randomX > player.GetX() || randomX < player.GetX() ||
+                        randomY > player.GetY() || randomY < player.GetY())
+                {
+                    enemies[i].MoveTo(randomX, randomY);
+                }
                 enemies[i].SetSpeed(rnd.Next(1, maxVelocidad),
                     rnd.Next(1, maxVelocidad));
             }
@@ -255,7 +262,7 @@ class Game
 
                     case 1:
                         //TOCADO
-                        shot[0].speedY(((-shotSpeed) ) / 2);
+                        shot[0].speedY(((-shotSpeed)) / 2);
                         shot[0].speedX((shotSpeed) / 2);
                         break;
 
@@ -506,7 +513,7 @@ class Game
             if (player.CollisionsWith(enemies[i]) && enemyAlive[i] == true)
             {
                 string line = inputMaxScore.ReadLine();
-                
+
                 maxScore = Convert.ToInt32(line);
                 inputMaxScore.Close();
 
@@ -514,14 +521,15 @@ class Game
                 {
                     maxScore = score;
                     File.WriteAllText(fileMaxScore, Convert.ToString(score));
-                    
+
                 }
                 Score.Run(score, maxScore);
                 score = 0;
                 finished = true;
-            }   
+            }
 
-            if (shot[0].CollisionsWith(enemies[i]) && enemyAlive[i] == true
+            if ((shot[0].CollisionsWith(enemies[i]) || shot[0].CollisionsWith(enemies[i]))
+                    && enemyAlive[i] == true
                 && activeShot == true)
             {
                 enemyAlive[i] = false;

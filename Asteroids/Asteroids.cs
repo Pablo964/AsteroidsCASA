@@ -6,26 +6,26 @@
         SdlHardware.Init(1024, 700, 24, fullScreen);
 
         WelcomeScreen w = new WelcomeScreen();
+        ChooseLanguage l = new ChooseLanguage();
 
         do
         {
-            w.Run();
-            if (w.GetChosenOption() == 1)
+            l.Run();
+            if (l.GetChosenOption() != 0)
             {
-                Game g = new Game();
-                g.Run();
-                /*Score s = new Score();
-                do
+                w.Run();
+                if (w.GetChosenOption() == 1)
                 {
-                    s.Run();
-                } while (s.GetExit() != 0);*/
-               
+                    Game g = new Game();
+                    g.Run();
+                }
+                else if (w.GetChosenOption() == 2)
+                {
+                    CreditsScreen credits = new CreditsScreen();
+                    credits.Run();
+                }
             }
-            else if (w.GetChosenOption() == 2)
-            {
-                CreditsScreen credits = new CreditsScreen();
-                credits.Run();
-            }
+           
         }
         while (w.GetChosenOption() != 3);
          
