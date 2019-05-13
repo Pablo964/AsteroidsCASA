@@ -10,7 +10,7 @@
             390, 630,
             0xCC, 0xCC, 0xCC,
             font18);
-        SdlHardware.WriteHiddenText("R to Return",
+        SdlHardware.WriteHiddenText("R " + ChooseLanguage.lenguage["toReturn"],
             20, 20,
             0xBB, 0xBB, 0xBB,
             font18);

@@ -23,17 +23,19 @@ class Score
     {
         SdlHardware.ClearScreen();
 
-        SdlHardware.WriteHiddenText("Score: " + score,
+        SdlHardware.WriteHiddenText(ChooseLanguage.lenguage["score"] + 
+                " " + score,
             400, 350,
             0xC0, 0xC0, 0xC0,
             font24);
 
-        SdlHardware.WriteHiddenText("Max Score: " + maxScore,
+        SdlHardware.WriteHiddenText(ChooseLanguage.lenguage["maxScore"] + 
+                " " + maxScore,
             400, 300,
             0xC0, 0xC0, 0xC0,
             font24);
 
-        SdlHardware.WriteHiddenText("Q. Quit",
+        SdlHardware.WriteHiddenText("Q. " + ChooseLanguage.lenguage["quit"],
             400, 530,
             0x80, 0x80, 0x80,
             font24);

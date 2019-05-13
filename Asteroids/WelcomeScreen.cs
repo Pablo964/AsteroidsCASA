@@ -1,8 +1,11 @@
-﻿class WelcomeScreen
+﻿using System.Collections;
+
+class WelcomeScreen
 {
     protected Image welcome;
     protected int option;
     protected Font font24;
+
 
     public WelcomeScreen()
     {
@@ -23,15 +26,16 @@
         SdlHardware.ClearScreen();
         SdlHardware.DrawHiddenImage(welcome, 0, 0);
 
-        SdlHardware.WriteHiddenText("1. Play",
+        //Menu:
+        SdlHardware.WriteHiddenText("1. " + ChooseLanguage.lenguage["play"],
             400, 470,
             0xC0, 0xC0, 0xC0,
             font24);
-        SdlHardware.WriteHiddenText("2. Credits",
+        SdlHardware.WriteHiddenText("2. " + ChooseLanguage.lenguage["credits"],
             400, 500,
             0xA0, 0xA0, 0xA0,
             font24);
-        SdlHardware.WriteHiddenText("Q. Quit",
+        SdlHardware.WriteHiddenText("Q. " + ChooseLanguage.lenguage["quit"],
             400, 530,
             0x80, 0x80, 0x80,
             font24);

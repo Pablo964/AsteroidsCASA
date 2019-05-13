@@ -10,7 +10,10 @@
 
         do
         {
-            l.Run();
+            if (l.GetChosenOption() == 0)
+            {
+                l.Run();
+            }
             if (l.GetChosenOption() != 0)
             {
                 w.Run();

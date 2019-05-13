@@ -200,11 +200,13 @@ class Game
             }
         }
 
-        SdlHardware.WriteHiddenText("Level: " + level,
+        SdlHardware.WriteHiddenText(ChooseLanguage.lenguage["level"] + " "
+                + level,
             400, 10,
             0xC0, 0xC0, 0xC0,
             font24);
-        SdlHardware.WriteHiddenText("Score: " + score,
+        SdlHardware.WriteHiddenText(ChooseLanguage.lenguage["score"] + " " 
+                + score,
             400, 40,
             0xC0, 0xC0, 0xC0,
             font24);
@@ -507,7 +509,6 @@ class Game
 
     static void CheckGameStatus()
     {
-        // Check collisions and apply game logic
         for (int i = 0; i < numEnemies; i++)
         {
             if (player.CollisionsWith(enemies[i]) && enemyAlive[i] == true)
@@ -526,6 +527,7 @@ class Game
                 Score.Run(score, maxScore);
                 score = 0;
                 finished = true;
+                
             }
 
             if ((shot[0].CollisionsWith(enemies[i]) || shot[0].CollisionsWith(enemies[i]))
