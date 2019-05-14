@@ -1,45 +1,36 @@
-﻿/**
- * Game.cs - Nodes Of Yesod, game logic
- * 
- * Changes:
- * 0.03, 14-01-2019: Main & Hardware init moved to NodeOfYesod
- * 0.02, 29-11-2018: Split into functions
- * 0.01, 01-nov-2014: Initial version, drawing player 2, enemies, 
- *   allowing the user to move to the right
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
 class Game
 {
 
-    static Player player;
-    static List<Shot> shot;
+    public static Player player;
+    public static List<Shot> shot;
     static int numEnemies;
-    protected int coolDown;
+    protected int coolDownChangeSprite;
     protected int coolDownShot;
     protected int numTeletransportes;
     protected int enfriamientoTeletransporte;
 
     static Enemy[] enemies;
-    //NEW
+
     const int SIZE = 16;
     protected string[] imagesPlayer;
     public static int position = 0;
     protected string imageShot;
 
-    protected int shotSpeed;
+    //protected int shotSpeed;
     protected static bool activeShot;
     static bool[] enemyAlive;
-    //-----
+ 
     protected Room room;
 
     static bool finished;
     static protected int score;
     static protected int maxScore;
     static StreamReader inputMaxScore;
-    StreamWriter outputMaxScore;
+    
     Score s;
     static protected string fileMaxScore = "maxScore.txt";
     static protected Font font24;
@@ -107,11 +98,11 @@ class Game
 
         imageShot = "data/disparo.png";
 
-        shotSpeed = 22;
+        //shotSpeed = 22;
 
         activeShot = false;
 
-        coolDown = 0;
+        coolDownChangeSprite = 0;
         coolDownShot = 0;
         numTeletransportes = 3;
         enfriamientoTeletransporte = 0;
@@ -219,9 +210,9 @@ class Game
 
     void CheckUserInput()
     {
-        if (coolDown > 0)
+        if (coolDownChangeSprite > 0)
         {
-            coolDown -= 9;
+            coolDownChangeSprite -= 9;
 
         }
         if (coolDownShot > 0)
@@ -254,94 +245,7 @@ class Game
                 coolDownShot = 30;
                 activeShot = true;
 
-                switch (position)
-                {
-
-                    case 0:
-                        shot[0].speedY(-shotSpeed);
-                        shot[0].speedX(0);
-                        break;
-
-                    case 1:
-                        //TOCADO
-                        shot[0].speedY(((-shotSpeed)) / 2);
-                        shot[0].speedX((shotSpeed) / 2);
-                        break;
-
-                    case 2:
-                        shot[0].speedY(-shotSpeed / 2);
-                        shot[0].speedX(shotSpeed / 2);
-                        break;
-
-                    case 3:
-                        shot[0].speedY(-shotSpeed / 2);
-                        shot[0].speedX(shotSpeed / 2);
-                        break;
-
-                    case 4:
-                        shot[0].speedX(shotSpeed);
-                        shot[0].speedY(0);
-                        break;
-
-                    case 5:
-                        shot[0].speedY(shotSpeed / 2);
-                        shot[0].speedX(shotSpeed / 2);
-                        break;
-
-                    case 6:
-                        shot[0].speedY(shotSpeed / 2);
-                        shot[0].speedX(shotSpeed / 2);
-                        break;
-
-                    case 7:
-                        shot[0].speedY(shotSpeed / 2);
-                        shot[0].speedX(shotSpeed / 2);
-                        break;
-
-                    case 8:
-                        shot[0].speedY(shotSpeed);
-                        shot[0].speedX(0);
-                        break;
-
-                    case 9:
-                        shot[0].speedY(shotSpeed / 2);
-                        shot[0].speedX(-shotSpeed / 2);
-                        break;
-
-                    case 10:
-                        shot[0].speedY(shotSpeed / 2);
-                        shot[0].speedX(-shotSpeed / 2);
-                        break;
-
-                    case 11:
-                        shot[0].speedY(shotSpeed / 2);
-                        shot[0].speedX(-shotSpeed / 2);
-                        break;
-
-                    case 12:
-                        shot[0].speedX(-shotSpeed);
-                        shot[0].speedY(0);
-                        break;
-
-                    //probar con Yspeed en -4
-                    case 13:
-                        shot[0].speedY(-shotSpeed / 2);
-                        shot[0].speedX(-shotSpeed / 2);
-                        break;
-
-                    case 14:
-                        shot[0].speedY(-shotSpeed / 2);
-                        shot[0].speedX(-shotSpeed / 2);
-                        break;
-
-                    case 15:
-                        shot[0].speedY(-shotSpeed / 2);
-                        shot[0].speedX(-shotSpeed / 2);
-                        break;
-
-                    default:
-                        break;
-                }
+                shot[0].ShotDirection(position);
             }
         }
 
@@ -349,95 +253,13 @@ class Game
 
         if (SdlHardware.KeyPressed(SdlHardware.KEY_Z))
         {
-
-            switch (position)
-            {
-                case 0:
-                    player.IncSpeedY(-2);
-                    break;
-
-                case 1:
-                    player.IncSpeedY(-6 / 2);
-                    player.IncSpeedX(6 / 2);
-                    break;
-
-                case 2:
-                    player.IncSpeedY(-6 / 2);
-                    player.IncSpeedX(6 / 2);
-                    break;
-
-                case 3:
-                    player.IncSpeedY(-6 / 2);
-                    player.IncSpeedX(6 / 2);
-                    break;
-
-                case 4:
-                    player.IncSpeedX(6);
-                    break;
-
-                case 5:
-                    player.IncSpeedY(6 / 2);
-                    player.IncSpeedX(6 / 2);
-                    break;
-
-                case 6:
-                    player.IncSpeedY(6 / 2);
-                    player.IncSpeedX(6 / 2);
-                    break;
-
-                case 7:
-                    player.IncSpeedY(6 / 2);
-                    player.IncSpeedX(6 / 2);
-                    break;
-
-                case 8:
-                    player.IncSpeedY(6);
-                    break;
-
-                case 9:
-                    player.IncSpeedY(6 / 2);
-                    player.IncSpeedX(-6 / 2);
-                    break;
-
-                case 10:
-                    player.IncSpeedY(6 / 2);
-                    player.IncSpeedX(-6 / 2);
-                    break;
-
-                case 11:
-                    player.IncSpeedY(6 / 2);
-                    player.IncSpeedX(-6 / 2);
-                    break;
-
-                case 12:
-                    player.IncSpeedX(-6);
-                    break;
-
-                case 13:
-                    player.IncSpeedY(-6 / 2);
-                    player.IncSpeedX(-6 / 2);
-                    break;
-
-                case 14:
-                    player.IncSpeedY(-6 / 2);
-                    player.IncSpeedX(-6 / 2);
-                    break;
-
-                case 15:
-                    player.IncSpeedY(-6 / 2);
-                    player.IncSpeedX(-6 / 2);
-                    break;
-
-                default:
-                    break;
-            }
+            player.ChangeVelocity(position);
         }
-
 
         player.Move();
         shot[0].Move(position);
 
-        if (coolDown > 0)
+        if (coolDownChangeSprite > 0)
         {
             return;
         }
@@ -457,7 +279,7 @@ class Game
             }
             player.LoadImage(imagesPlayer[position]);
 
-            coolDown = 10;
+            coolDownChangeSprite = 10;
 
         }
         //NEW
@@ -475,7 +297,7 @@ class Game
             }
             player.LoadImage(imagesPlayer[position]);
 
-            coolDown = 10;
+            coolDownChangeSprite = 10;
         }
         if (enfriamientoTeletransporte > 0)
         {
